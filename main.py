@@ -84,7 +84,7 @@ def add_reservation(res: Reservation):
     finally:
         cur.close()
         conn.close()
-
+# route DELETE
 @app.delete("/reservations/{event_id}")
 def remove_reservation(event_id: str):
     """Supprime un ID de la base Neon"""
