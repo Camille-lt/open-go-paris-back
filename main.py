@@ -49,6 +49,7 @@ def startup():
 
 class Reservation(BaseModel):
     event_id: str
+    event_title: str 
 
 @app.get("/reservations", response_model=List[str])
 def get_all_reservations():
@@ -68,7 +69,10 @@ def add_reservation(res: Reservation):
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        cur.execute("INSERT INTO reservations (event_id) VALUES (%s)", (res.event_id,))
+        cur.execute(
+            "INSERT INTO reservations (event_id, event_title) VALUES (%s, %s)", 
+            (res.event_id, res.event_title)
+        )
         conn.commit()
         return {"status": "success", "added": res.event_id}
     except psycopg2.errors.UniqueViolation:
